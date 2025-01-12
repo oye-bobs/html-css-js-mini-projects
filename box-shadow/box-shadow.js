@@ -9,6 +9,7 @@ const box = document.getElementById("box");
 const code = document.getElementById("code");
 const copyButton = document.getElementById("copy-button");
 
+// Span classes / text
 const horizontalValue = document.getElementById("horizontal-value");
 const verticalValue = document.getElementById("vertical-value");
 const blurValue = document.getElementById("blur-value");
@@ -16,4 +17,58 @@ const spreadValue = document.getElementById("spread-value");
 const colorValue = document.getElementById("color-value");
 const opacityValue = document.getElementById("opacity-value");
 
+/**
+ * Converts Hex to RGBA
+ * @param {string} hex - The hex code of colour
+ * @param {string} opacity - The opacity of colour
+ * @returns rgba string
+ * @example #4acf22 returns rgb(74, 207, 34)
+ */
+function hexToRGBA(hex, opacity) {
+  const r = parseInt(hex.slice(1, 3), 16);
+  const g = parseInt(hex.slice(3, 5), 16);
+  const b = parseInt(hex.slice(5, 7), 16);
 
+  return `rgba(${r}, ${g}, ${b}, ${opacity})`;
+}
+
+// function to update shadow
+function updateShadow() {
+  const currentOpacity = opacity.value / 100;
+
+  const shadowColor = hexToRGBA(color.value, currentOpacity);
+
+  const insetValue = inset.checked ? "inset " : "";
+  const boxShadowValue = `${insetValue}${horizontal.value}px ${vertical.value}px ${blur.value}px ${spread.value}px ${shadowColor}`;
+
+  box.style.boxShadow = boxShadowValue;
+
+  code.textContent = `box-shadow: ${boxShadowValue}`;
+
+  horizontalValue.textContent = `${horizontal.value}px`;
+  verticalValue.textContent = `${vertical.value}px`;
+  blurValue.textContent = `${blur.value}px`;
+  spreadValue.textContent = `${spread.value}px`;
+  colorValue.textContent = color.value.toUpperCase();
+  opacityValue.textContent = `${opacity.value}%`;
+}
+
+horizontal.addEventListener("input", updateShadow);
+vertical.addEventListener("input", updateShadow);
+blur.addEventListener("input", updateShadow);
+spread.addEventListener("input", updateShadow);
+color.addEventListener("input", updateShadow);
+opacity.addEventListener("input", updateShadow);
+inset.addEventListener("input", updateShadow);
+
+copyButton.addEventListener("click", () => {
+  window.navigator.clipboard.writeText(code.textContent).then(() => {
+    const originalText = copyButton.textContent;
+    copyButton.textContent = "Copied!";
+    setTimeout(() => {
+      copyButton.textContent = originalText;
+    }, 1500);
+  });
+});
+
+updateShadow();
