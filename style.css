@@ -23,6 +23,7 @@ ol {
   color: #1d1d1d;
   font-family: sans-serif;
 }
+
 /* Navbar */
 .navbar ul {
   list-style: none;
@@ -52,4 +53,17 @@ ol {
 .navbar a:hover {
   color: #ffff;
   text-decoration: underline;
+}
+
+/* Code block*/
+pre {
+  background-color:#f1f5f9;
+  padding: 16px;
+  border-radius: 10px;
+  overflow-x: auto;
+}
+
+code {
+  color: #030712;
+  font-family: monospace;
 }
